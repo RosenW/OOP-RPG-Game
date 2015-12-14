@@ -13,14 +13,15 @@ namespace Game
         static void Main(string[] args)
         {
 
-            Console.SetCursorPosition(25, 0);
-            Console.WriteLine("Welcome to (insert game name here)\n");
+            
             Start();
 
         }
 
         public static void Start()
         {
+            Console.SetCursorPosition(25, 0);
+            Console.WriteLine("Welcome to (insert game name here)\n");
             Console.WriteLine("Choose a character to enter the game or create a new one !\n\n\"C\" - Create\nNumber - enter with selected character\n");
             Console.WriteLine("your characters: ");
 
