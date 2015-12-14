@@ -1,0 +1,6 @@
+c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\bin\Debug\Game.exe.config
+c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\bin\Debug\Game.exe
+c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\bin\Debug\Game.pdb
+c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache
+c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\obj\Debug\Game.exe
+c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\obj\Debug\Game.pdb
