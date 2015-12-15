@@ -13,13 +13,13 @@ namespace Game
         static void Main(string[] args)
         {
 
-            
             Start();
 
         }
 
         public static void Start()
         {
+
             Console.SetCursorPosition(25, 0);
             Console.WriteLine("Welcome to (insert game name here)\n");
             Console.WriteLine("Choose a character to enter the game or create a new one !\n\n\"C\" - Create\nNumber - enter with selected character\n");
@@ -54,7 +54,7 @@ namespace Game
         public static void Town(Character ch)
         {
             //////////////////////////////////////////////////////////////////////////// TEST
-            ch.AddItem(new Item("Sword", 100, 240));
+            ch.AddItem(new OneHandedWeapon("One-Handed Sword", 100, 10, 240, 0));
             //////////////////////////////////////////////////////////////////////////// TEST
             Console.Clear();
             Console.SetCursorPosition(25, 0);

@@ -6,16 +6,21 @@ using System.Threading.Tasks;
 
 namespace Game.Items
 {
-    class Item
+    abstract class Item
     {
         public string Name { get; set; }
         public int ItemPower { get; set; }
+        public int ItemDefense { get; set; }
         public int Price { get; set; }
-        public Item(string name, int power, int price)
+        public int Type { get; set; }
+
+        public Item(string name, int power,int defense, int price, int type)
         {
             this.Name = name;
             this.ItemPower = power;
+            this.ItemDefense = defense;
             this.Price = price;
+            this.Type = type;
         }
     }
 }

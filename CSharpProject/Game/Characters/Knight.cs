@@ -16,7 +16,7 @@ namespace Game.Characters
         }
         public override string ToString()
         {
-            return string.Format("{0} - Knight Level {1}",Name,Level);
+            return string.Format("{0} - Knight Level {1}", Name, Level);
         }
     }
 }

@@ -4,6 +4,3 @@ c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\bin\Debug\
 c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache
 c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\obj\Debug\Game.exe
 c:\users\big\documents\visual studio 2015\Projects\CSharpProject\Game\obj\Debug\Game.pdb
-C:\Users\Koceto\Desktop\Project\CSharpProject\Game\bin\Debug\Game.exe.config
-C:\Users\Koceto\Desktop\Project\CSharpProject\Game\obj\Debug\Game.exe
-C:\Users\Koceto\Desktop\Project\CSharpProject\Game\obj\Debug\Game.pdb
