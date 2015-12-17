@@ -54,16 +54,24 @@ namespace Game
         public static void Town(Character ch)
         {
             //////////////////////////////////////////////////////////////////////////// TEST
-            ch.AddItem(new OneHandedWeapon("One-Handed Sword", 100, 10, 240, 0));
+            ch.AddItem(new OneHandedWeapon("One-Handed Axe", 100, 10, 240, 0));
             //////////////////////////////////////////////////////////////////////////// TEST
             Console.Clear();
             Console.SetCursorPosition(25, 0);
             Console.WriteLine("Hello "+ch.Name+" You are in town !");
-            Console.WriteLine("You can: \nCheck Inventory - I\nFight in a dungeon - D\nSave and exit - S");
+            Console.WriteLine("You can: \nCheck Inventory - I\nCheck character - C\nFight in a dungeon - D\nSave and exit - S");
             line = Console.ReadLine();
             if (line.Substring(0).ToLower() == "i")
             {
                 ch.CheckInv();
+            }
+            if (line.Substring(0).ToLower() == "c")
+            {
+                ch.CheckChar();
+            }
+            if (line.Substring(0).ToLower() == "d")
+            {
+                ch.GoInADungeon();
             }
         }
     }

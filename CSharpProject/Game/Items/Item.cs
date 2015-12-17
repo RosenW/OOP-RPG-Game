@@ -22,5 +22,9 @@ namespace Game.Items
             this.Price = price;
             this.Type = type;
         }
+        public override string ToString()
+        {
+            return string.Format("{0} - Attack value: {1} Defence value: {2}",Name,ItemPower,ItemDefense);
+        }
     }
 }

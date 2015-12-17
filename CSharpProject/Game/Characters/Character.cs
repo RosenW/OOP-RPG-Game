@@ -1,12 +1,15 @@
 ﻿using System;
 using Game.Items;
 using System.Collections.Generic;
+using Game.Enemies;
 
 namespace Game.Characters
 {
     abstract class Character
     {
-        public string Name { get; set; }
+        private string name;
+
+        public string Name { get { return this.name; } set { this.name = value.Substring(0,1).ToUpper() + value.Substring(1, value.Length - 1); } }
         public int Level { get; set; }
         public int Money { get; set; }
         public int Experience { get; set; }
@@ -23,20 +26,20 @@ namespace Game.Characters
 
         public Character(string name)
         {
-            this.LeftHand = new OneHandedWeapon("Empty", 0, 0, 0, 0);
-            this.RightHand = new OneHandedWeapon("Empty", 0, 0, 0, 0);
-            this.Helm = new Helm("Empty", 0, 0, 0, 1);
-            this.Chest = new Chest("Empty", 0, 0, 0, 2);
-            this.Legs = new Legs("Empty", 0, 0, 0, 3);
+            this.LeftHand = new OneHandedWeapon("Nothing", 0, 0, 0, 0);
+            this.RightHand = new OneHandedWeapon("Nothing", 0, 0, 0, 0);
+            this.Helm = new Helm("Nothing", 0, 0, 0, 1);
+            this.Chest = new Chest("Nothing", 0, 0, 0, 2);
+            this.Legs = new Legs("Nothing", 0, 0, 0, 3);
             this.Name = name;
-            this.Level = 0;
+            this.Level = 1;
             this.Experience = 0;
         }
         public void CheckInv()
         {
             Console.WriteLine("Inventory: ");
-            Console.WriteLine("Gold: {0}",Money);
-            for(int i = 0; i < Inventory.Count; i++)
+            Console.WriteLine("Gold: {0}", Money);
+            for (int i = 0; i < Inventory.Count; i++)
             {
                 string str = string.Format("{0} - {1} - Power: {2}, Defense: {3}, Price: {4}",
                     i, Inventory[i].Name, Inventory[i].ItemPower, Inventory[i].ItemDefense, Inventory[i].Price);
@@ -49,7 +52,7 @@ namespace Game.Characters
             Console.WriteLine("Where X is the number of the item");
 
             string line = Console.ReadLine();
-            string[] lineArgs = line.Split(new char[] {' '});
+            string[] lineArgs = line.Split(new char[] { ' ' });
 
             if (lineArgs[0].ToLower() == "equip")
             {
@@ -69,6 +72,46 @@ namespace Game.Characters
             CheckInv();
         }
 
+        internal void GoInADungeon()
+        {
+            Console.Clear();
+            Console.SetCursorPosition(25, 0);
+            Console.WriteLine(" You are in a dungeon !");
+            Console.WriteLine("You can: \nFight monster - F\nGo back to town - T");
+            string line = Console.ReadLine();
+            string[] lineArgs = line.Split(new char[] { ' ' });
+
+            if (lineArgs[0].ToLower() == "t")
+            {
+                MainGameClass.Town(this);
+            }
+            if (lineArgs[0].ToLower() == "f")
+            {
+                Random rand = new Random();
+                Enemy currentEnemy = new Enemy(rand.Next(30,60),rand.Next(30,60),this.Level+rand.Next(-5,5),"a skeleton");
+                Console.WriteLine("you have encountered {0} (level {3}) with {1} attack and {2} defence", currentEnemy.Name,currentEnemy.Attack,currentEnemy.Defence,currentEnemy.Level);
+            }
+
+        }
+
+        internal void CheckChar()
+        {
+            Console.WriteLine("Left hand: " + LeftHand);
+            Console.WriteLine("Right hand: " + RightHand);
+            Console.WriteLine("Head: " + Helm);
+            Console.WriteLine("Chest: " + Chest);
+            Console.WriteLine("Legs: " + Legs);
+            Console.WriteLine("Name: " + Name);
+            Console.WriteLine("Level: " + Level);
+            Console.WriteLine("Experience: " + Experience);
+            Console.WriteLine("\"close\" to close");
+
+            string line = Console.ReadLine();
+            string[] lineArgs = line.Split(new char[] { ' ' });
+
+            MainGameClass.Town(this);
+        }
+
         private void Equip(Item item)
         {
             switch (item.Type)
@@ -78,6 +121,7 @@ namespace Game.Characters
                     int input = Int32.Parse(Console.ReadLine());
                     if (input == 1)
                     {
+                        Inventory.Add(LeftHand);
                         LeftHand = item;
                         Console.WriteLine(string.Format("Equiped {0} in left hand",item.Name));
                         Inventory.Remove(item);
@@ -85,6 +129,7 @@ namespace Game.Characters
                     }
                     if (input == 2)
                     {
+                        Inventory.Add(RightHand);
                         RightHand = item;
                         Console.WriteLine(string.Format("Equiped {0} in right hand", item.Name));
                         Inventory.Remove(item);
