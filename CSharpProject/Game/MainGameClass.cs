@@ -63,9 +63,6 @@ namespace Game
         }
         public static void Town(Character ch)
         {
-            //////////////////////////////////////////////////////////////////////////// TEST
-            ch.AddItem(new OneHandedWeapon("One-Handed Axe", 100, 10, 240, 0));
-            //////////////////////////////////////////////////////////////////////////// TEST
             Console.Clear();
             Console.SetCursorPosition(25, 0);
             Console.WriteLine("Hello "+ch.Name+" You are in town !");

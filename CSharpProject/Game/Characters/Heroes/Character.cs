@@ -9,7 +9,7 @@ namespace Game.Characters
     abstract class Character : GameObject, IAttackable, IDie
     {
 
-        public string Name { get { return this.name; } set { this.name = value.Substring(0,1).ToUpper() + value.Substring(1, value.Length - 1); } }
+        public string Name { get { return this.name; } set { this.name = value.Substring(0, 1).ToUpper() + value.Substring(1, value.Length - 1); } }
         public int Level { get; set; }
         public int Money { get; set; }
         public int Experience { get; set; }
@@ -25,7 +25,7 @@ namespace Game.Characters
 
         public List<Item> Inventory = new List<Item>();
 
- 
+
 
         public Character(string name)
         {
@@ -93,8 +93,8 @@ namespace Game.Characters
             if (lineArgs[0].ToLower() == "f")
             {
                 Random rand = new Random();
-                Enemy currentEnemy = new Enemy(rand.Next(30,60),rand.Next(30,60),Math.Abs(this.Level+rand.Next(-5,5)),"a skeleton",rand.Next(50,150));
-                Console.WriteLine("you have encountered {0} (level {3}) with {1} attack and {2} defence", currentEnemy.Name,currentEnemy.Attack,currentEnemy.Defence,currentEnemy.Level);
+                Enemy currentEnemy = new Enemy(rand.Next(30, 60), rand.Next(30, 60), Math.Abs(this.Level + rand.Next(-3, 2) + 1), "a skeleton", rand.Next(50, 150));
+                Console.WriteLine("you have encountered {0} (level {3}) with {1} attack and {2} defence", currentEnemy.Name, currentEnemy.Attack, currentEnemy.Defence, currentEnemy.Level);
                 Console.WriteLine("fight - F");
                 Console.WriteLine("run - R");
                 string subLine = Console.ReadLine();
@@ -106,7 +106,7 @@ namespace Game.Characters
                 {
                     MainGameClass.Town(this);
                 }
-                
+
             }
             else
             {
@@ -120,12 +120,12 @@ namespace Game.Characters
         public void Fight(Enemy enemy)
         {
             Console.Clear();
-            Console.SetCursorPosition(25,0);
-            Console.WriteLine("Fighting {0}\n",enemy.Name);
+            Console.SetCursorPosition(25, 0);
+            Console.WriteLine("Fighting {0}\n", enemy.Name);
             Console.WriteLine("attack - enter");
             Console.WriteLine("flee - F");
-            Console.WriteLine("Health: {0}",this.Health);
-            Console.WriteLine("Enemy health: {0}",enemy.Health);
+            Console.WriteLine("Health: {0}", this.Health);
+            Console.WriteLine("Enemy health: {0}", enemy.Health);
             string subSubLine = Console.ReadLine();
             if (subSubLine.ToLower() == "f")
             {
@@ -144,16 +144,25 @@ namespace Game.Characters
                 {
                     Loot(enemy);
                 }
-               
+
             }
 
         }
 
         private void Loot(Enemy e)
         {
-            Console.WriteLine("you have killed {0}",e.Name);
+            int gainedXP = rand.Next(10, 100) * e.Level;
+            int goldDrop = rand.Next(50, 150) * e.Level;
+            Item dropedItem = e.drop[rand.Next(0, 4)];
+            Console.WriteLine("you have killed {0}", e.Name);
+            Console.WriteLine("You have gained {0}XP and {1} gold", gainedXP, goldDrop);
+            Console.WriteLine("You picked up {0}", dropedItem.Name);
+            this.Experience += gainedXP;
+            this.Money += goldDrop;
+            this.Inventory.Add(dropedItem);
             Console.ReadLine();
             MainGameClass.Town(this);
+
         }
 
         internal void CheckChar()
@@ -186,7 +195,7 @@ namespace Game.Characters
                         Inventory.Add(LeftHand);
                         LeftHand = item;
                         Console.Clear();
-                        Console.WriteLine(string.Format("Equiped {0} in left hand",item.Name));
+                        Console.WriteLine(string.Format("Equiped {0} in left hand", item.Name));
                         Inventory.Remove(item);
                         this.CheckInv();
                     }
@@ -200,6 +209,19 @@ namespace Game.Characters
                         this.CheckInv();
                     }
                     break;
+                case 1:
+                    if (Helm.Name != "Nothing")
+                    {
+                        Inventory.Add(Helm);
+                    }
+                    Helm = item;
+                    Console.Clear();
+                    Console.WriteLine("The helm is equiped");
+                    Inventory.Remove(item);
+                    this.CheckInv();
+                    break;
+
+
             }
         }
 
@@ -210,7 +232,7 @@ namespace Game.Characters
         private void SellItem(int i)
         {
             Console.Clear();
-            Console.WriteLine("Sold {0} for {1} gold\n",Inventory[i].Name,Inventory[i].Price);
+            Console.WriteLine("Sold {0} for {1} gold\n", Inventory[i].Name, Inventory[i].Price);
             Money += Inventory[i].Price;
             Inventory.Remove(Inventory[i]);
             this.CheckInv();
