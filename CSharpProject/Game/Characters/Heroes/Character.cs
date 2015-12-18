@@ -13,6 +13,7 @@ namespace Game.Characters
         public int Level { get; set; }
         public int Money { get; set; }
         public int Experience { get; set; }
+        //public bool isAlive { get; set; }
 
         public Item LeftHand { get; set; }
         public Item RightHand { get; set; }
@@ -20,12 +21,15 @@ namespace Game.Characters
         public Item Helm { get; set; }
         public Item Legs { get; set; }
 
+        Random rand = new Random();
+
         public List<Item> Inventory = new List<Item>();
 
  
 
         public Character(string name)
         {
+            //this.isAlive = true;
             this.LeftHand = new OneHandedWeapon("Nothing", 0, 0, 0, 0);
             this.RightHand = new OneHandedWeapon("Nothing", 0, 0, 0, 0);
             this.Helm = new Helm("Nothing", 0, 0, 0, 1);
@@ -89,7 +93,7 @@ namespace Game.Characters
             if (lineArgs[0].ToLower() == "f")
             {
                 Random rand = new Random();
-                Enemy currentEnemy = new Enemy(rand.Next(30,60),rand.Next(30,60),this.Level+rand.Next(-5,5),"a skeleton");
+                Enemy currentEnemy = new Enemy(rand.Next(30,60),rand.Next(30,60),Math.Abs(this.Level+rand.Next(-5,5)),"a skeleton",rand.Next(50,150));
                 Console.WriteLine("you have encountered {0} (level {3}) with {1} attack and {2} defence", currentEnemy.Name,currentEnemy.Attack,currentEnemy.Defence,currentEnemy.Level);
                 Console.WriteLine("fight - F");
                 Console.WriteLine("run - R");
@@ -118,21 +122,38 @@ namespace Game.Characters
             Console.Clear();
             Console.SetCursorPosition(25,0);
             Console.WriteLine("Fighting {0}\n",enemy.Name);
-            Console.WriteLine("attack - A");
+            Console.WriteLine("attack - enter");
             Console.WriteLine("flee - F");
             Console.WriteLine("Health: {0}",this.Health);
             Console.WriteLine("Enemy health: {0}",enemy.Health);
             string subSubLine = Console.ReadLine();
-            if (subSubLine.ToLower() == "a")
-            {
-                Attack(enemy);
-                Fight(enemy);
-            }
-            else
+            if (subSubLine.ToLower() == "f")
             {
                 MainGameClass.Town(this);
             }
+            else
+            {
+                Attack(enemy);
+                this.CheckIfDead();
+                enemy.checkIfDead();
+                if (enemy.isAlive)
+                {
+                    Fight(enemy);
+                }
+                else
+                {
+                    Loot(enemy);
+                }
+               
+            }
 
+        }
+
+        private void Loot(Enemy e)
+        {
+            Console.WriteLine("you have killed {0}",e.Name);
+            Console.ReadLine();
+            MainGameClass.Town(this);
         }
 
         internal void CheckChar()
@@ -198,8 +219,24 @@ namespace Game.Characters
 
         public virtual void Attack(Enemy target)
         {
-            int totalItemPower = LeftHand.ItemPower + RightHand.ItemPower + Helm.ItemPower + Chest.ItemPower + Legs.ItemPower; 
-            target.Health += (target.Defence - totalItemPower);
+            int totalItemPower = LeftHand.ItemPower + RightHand.ItemPower + Helm.ItemPower + Chest.ItemPower + Legs.ItemPower;
+            int totalItemDefence = LeftHand.ItemDefense + RightHand.ItemDefense + Helm.ItemDefense + Chest.ItemDefense + Legs.ItemDefense;
+            if (target.Defence > totalItemPower)
+            {
+                target.Health -= rand.Next(5, 15);
+            }
+            else
+            {
+                target.Health += (target.Defence - totalItemPower);
+            }
+            if (totalItemDefence > target.Attack)
+            {
+                this.Health -= rand.Next(5, 15);
+            }
+            else
+            {
+                this.Health += (totalItemDefence - target.Attack);
+            }
         }
 
         public void Die()
@@ -208,6 +245,13 @@ namespace Game.Characters
             Console.WriteLine("YOU DIED"); ////TO DO
             MainGameClass.listOfCreatedChars.Remove(this);
             MainGameClass.Start();
+        }
+        public void CheckIfDead()
+        {
+            if (Health <= 0)
+            {
+                Die();
+            }
         }
     }
 }

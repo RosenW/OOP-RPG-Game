@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game.Interfaces;
 
 namespace Game.Enemies
 {
-    class Enemy : GameObject
+    class Enemy : GameObject, IDie
     {
         private int attack;
         private int defence;
         private int level;
         private string name;
+        public bool isAlive { get; set; }
 
         public int Attack
         {
@@ -53,12 +55,26 @@ namespace Game.Enemies
         public int Level { get { return level; } set { this.level = value; } }
         public string Name { get { return name; } set { this.name = value; } }
 
-        public Enemy(int attack,int defence,int level, string name)
+        public Enemy(int attack,int defence,int level, string name, int hp)
         {
+            this.Health = hp*level;
             this.Level = level;
             this.Attack = attack;
             this.Defence = defence;
             this.Name = name;
+            this.isAlive = true;
+        }
+        public void checkIfDead()
+        {
+            if (Health<=0)
+            {
+                Die();
+            }
+        }
+
+        public void Die()
+        {
+            isAlive = false;
         }
     }
 }

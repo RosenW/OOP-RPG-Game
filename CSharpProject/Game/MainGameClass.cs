@@ -48,7 +48,17 @@ namespace Game
             }
             else
             {
-                Town(listOfCreatedChars[Int32.Parse(line)]);
+                try
+                {
+                    Town(listOfCreatedChars[Int32.Parse(line)]);
+                }
+                catch (Exception)
+                {
+                    Console.Clear();
+                    Start();
+                    Console.WriteLine("Invalid command");
+                }
+               
             }
         }
         public static void Town(Character ch)
