@@ -7,7 +7,7 @@ namespace Game
 {
     class MainGameClass
     {
-        private static List<Character> listOfCreatedChars = new List<Character>();
+        public static List<Character> listOfCreatedChars = new List<Character>();
         private static string line;
 
         static void Main(string[] args)
@@ -61,17 +61,21 @@ namespace Game
             Console.WriteLine("Hello "+ch.Name+" You are in town !");
             Console.WriteLine("You can: \nCheck Inventory - I\nCheck character - C\nFight in a dungeon - D\nSave and exit - S");
             line = Console.ReadLine();
-            if (line.Substring(0).ToLower() == "i")
+            if (line.ToLower() == "i")
             {
                 ch.CheckInv();
             }
-            if (line.Substring(0).ToLower() == "c")
+            if (line.ToLower() == "c")
             {
                 ch.CheckChar();
             }
-            if (line.Substring(0).ToLower() == "d")
+            if (line.ToLower() == "d")
             {
                 ch.GoInADungeon();
+            }
+            else
+            {
+                Town(ch);
             }
         }
     }

@@ -2,12 +2,12 @@
 using Game.Items;
 using System.Collections.Generic;
 using Game.Enemies;
+using Game.Interfaces;
 
 namespace Game.Characters
 {
-    abstract class Character
+    abstract class Character : GameObject, IAttackable, IDie
     {
-        private string name;
 
         public string Name { get { return this.name; } set { this.name = value.Substring(0,1).ToUpper() + value.Substring(1, value.Length - 1); } }
         public int Level { get; set; }
@@ -22,7 +22,7 @@ namespace Game.Characters
 
         public List<Item> Inventory = new List<Item>();
 
-        private int totalItemPower;
+ 
 
         public Character(string name)
         {
@@ -62,14 +62,15 @@ namespace Game.Characters
             {
                 SellItem(Int32.Parse(lineArgs[1]));
             }
-            else if (lineArgs[0].ToLower() == "close")
+            else
             {
                 MainGameClass.Town(this);
             }
+
             //Console.Clear();
             //Console.SetCursorPosition(25, 0);
             //Console.WriteLine("Hello " + this.Name + " You are in town !");
-            CheckInv();
+            //CheckInv();
         }
 
         internal void GoInADungeon()
@@ -90,6 +91,46 @@ namespace Game.Characters
                 Random rand = new Random();
                 Enemy currentEnemy = new Enemy(rand.Next(30,60),rand.Next(30,60),this.Level+rand.Next(-5,5),"a skeleton");
                 Console.WriteLine("you have encountered {0} (level {3}) with {1} attack and {2} defence", currentEnemy.Name,currentEnemy.Attack,currentEnemy.Defence,currentEnemy.Level);
+                Console.WriteLine("fight - F");
+                Console.WriteLine("run - R");
+                string subLine = Console.ReadLine();
+                if (subLine.ToLower() == "f")
+                {
+                    Fight(currentEnemy);
+                }
+                else
+                {
+                    MainGameClass.Town(this);
+                }
+                
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Invalid command");
+                GoInADungeon();
+            }
+
+        }
+
+        public void Fight(Enemy enemy)
+        {
+            Console.Clear();
+            Console.SetCursorPosition(25,0);
+            Console.WriteLine("Fighting {0}\n",enemy.Name);
+            Console.WriteLine("attack - A");
+            Console.WriteLine("flee - F");
+            Console.WriteLine("Health: {0}",this.Health);
+            Console.WriteLine("Enemy health: {0}",enemy.Health);
+            string subSubLine = Console.ReadLine();
+            if (subSubLine.ToLower() == "a")
+            {
+                Attack(enemy);
+                Fight(enemy);
+            }
+            else
+            {
+                MainGameClass.Town(this);
             }
 
         }
@@ -123,16 +164,19 @@ namespace Game.Characters
                     {
                         Inventory.Add(LeftHand);
                         LeftHand = item;
+                        Console.Clear();
                         Console.WriteLine(string.Format("Equiped {0} in left hand",item.Name));
                         Inventory.Remove(item);
-                        
+                        this.CheckInv();
                     }
                     if (input == 2)
                     {
                         Inventory.Add(RightHand);
                         RightHand = item;
+                        Console.Clear();
                         Console.WriteLine(string.Format("Equiped {0} in right hand", item.Name));
                         Inventory.Remove(item);
+                        this.CheckInv();
                     }
                     break;
             }
@@ -144,9 +188,26 @@ namespace Game.Characters
         }
         private void SellItem(int i)
         {
+            Console.Clear();
             Console.WriteLine("Sold {0} for {1} gold\n",Inventory[i].Name,Inventory[i].Price);
             Money += Inventory[i].Price;
             Inventory.Remove(Inventory[i]);
+            this.CheckInv();
+            //this.Die();
+        }
+
+        public virtual void Attack(Enemy target)
+        {
+            int totalItemPower = LeftHand.ItemPower + RightHand.ItemPower + Helm.ItemPower + Chest.ItemPower + Legs.ItemPower; 
+            target.Health += (target.Defence - totalItemPower);
+        }
+
+        public void Die()
+        {
+            Console.Clear();
+            Console.WriteLine("YOU DIED"); ////TO DO
+            MainGameClass.listOfCreatedChars.Remove(this);
+            MainGameClass.Start();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game.Enemies
 {
-    class Enemy
+    class Enemy : GameObject
     {
         private int attack;
         private int defence;
@@ -15,7 +15,14 @@ namespace Game.Enemies
 
         public int Attack
         {
-            get { return attack * level; }
+            get
+            {
+                if (attack * level == 0)
+                {
+                    return attack;
+                }
+                return attack * level;
+            }
             set
             {
                 if (value<1)
@@ -27,7 +34,13 @@ namespace Game.Enemies
         }
         public int Defence
         {
-            get { return defence * level; }
+            get {
+                if (defence * level == 0)
+                {
+                    return defence;
+                }
+                return defence * level;
+            }
             set
             {
                 if (value<1)
