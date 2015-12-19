@@ -42,6 +42,10 @@ namespace Game
                 {
                     listOfCreatedChars.Add(new Knight(tempName));
                 }
+                else
+                {
+                    Console.WriteLine("invalid command...");
+                }
                 Console.WriteLine();
                 Console.Clear();
                 Start();

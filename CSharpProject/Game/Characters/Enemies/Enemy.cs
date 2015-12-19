@@ -65,7 +65,7 @@ namespace Game.Enemies
                 new OneHandedWeapon("Sword",rand.Next(20,200),rand.Next(10,50),rand.Next(100,350),0),
                 new Helm("Helm",rand.Next(15,150),rand.Next(50,250),rand.Next(30,130),1),
                 new Chest("Chest",rand.Next(10,50),rand.Next(80,350),rand.Next(100,500),2),
-                new Legs("Legs", rand.Next(10,70),rand.Next(100,200),rand.Next(100,350),3)         
+                new Legs("Leggings", rand.Next(10,70),rand.Next(100,200),rand.Next(100,350),3)         
             };
             this.Health = hp*level;
             this.Level = level;

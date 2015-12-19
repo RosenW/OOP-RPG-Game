@@ -52,6 +52,7 @@ namespace Game.Characters
             Console.WriteLine();
             Console.WriteLine("To equip type \"equip X\"");
             Console.WriteLine("To sell type \"sell X\"");
+            Console.WriteLine("To sell all type \"sell all\"");
             Console.WriteLine("To close Inventory type \"close\"");
             Console.WriteLine("Where X is the number of the item");
 
@@ -60,21 +61,40 @@ namespace Game.Characters
 
             if (lineArgs[0].ToLower() == "equip")
             {
-                Equip(Inventory[Int32.Parse(lineArgs[1])]);
+                try
+                {
+                    Equip(Inventory[Int32.Parse(lineArgs[1])]);
+                }
+                catch (Exception)
+                {
+                    Console.Clear();
+                    this.CheckInv();
+                }
+               
             }
             else if (lineArgs[0].ToLower() == "sell")
             {
-                SellItem(Int32.Parse(lineArgs[1]));
+                if (lineArgs[1].ToLower() == "all")
+                {
+                    this.SellAll();
+                }
+                else
+                {
+                    try
+                    {
+                        SellItem(Int32.Parse(lineArgs[1]));
+                    }
+                    catch (Exception)
+                    {
+                        Console.Clear();
+                        this.CheckInv();
+                    }
+                }
             }
             else
             {
                 MainGameClass.Town(this);
             }
-
-            //Console.Clear();
-            //Console.SetCursorPosition(25, 0);
-            //Console.WriteLine("Hello " + this.Name + " You are in town !");
-            //CheckInv();
         }
 
         internal void GoInADungeon()
@@ -155,14 +175,13 @@ namespace Game.Characters
             int goldDrop = rand.Next(50, 150) * e.Level;
             Item dropedItem = e.drop[rand.Next(0, 4)];
             Console.WriteLine("you have killed {0}", e.Name);
-            Console.WriteLine("You have gained {0}XP and {1} gold", gainedXP, goldDrop);
+            Console.WriteLine("You have gained {0} XP and {1} gold", gainedXP, goldDrop);
             Console.WriteLine("You picked up {0}", dropedItem.Name);
             this.Experience += gainedXP;
             this.Money += goldDrop;
             this.Inventory.Add(dropedItem);
             Console.ReadLine();
             MainGameClass.Town(this);
-
         }
 
         internal void CheckChar()
@@ -195,7 +214,9 @@ namespace Game.Characters
                         Inventory.Add(LeftHand);
                         LeftHand = item;
                         Console.Clear();
+                        Console.SetCursorPosition(30, 20);
                         Console.WriteLine(string.Format("Equiped {0} in left hand", item.Name));
+                        Console.SetCursorPosition(0, 0);
                         Inventory.Remove(item);
                         this.CheckInv();
                     }
@@ -204,7 +225,9 @@ namespace Game.Characters
                         Inventory.Add(RightHand);
                         RightHand = item;
                         Console.Clear();
+                        Console.SetCursorPosition(30, 20);
                         Console.WriteLine(string.Format("Equiped {0} in right hand", item.Name));
+                        Console.SetCursorPosition(0, 0);
                         Inventory.Remove(item);
                         this.CheckInv();
                     }
@@ -216,7 +239,9 @@ namespace Game.Characters
                     }
                     Helm = item;
                     Console.Clear();
+                    Console.SetCursorPosition(30, 20);
                     Console.WriteLine("The helm is equiped!");
+                    Console.SetCursorPosition(0, 0);
                     Inventory.Remove(item);
                     this.CheckInv();
                     break;
@@ -227,7 +252,9 @@ namespace Game.Characters
                     }
                     Chest = item;
                     Console.Clear();
+                    Console.SetCursorPosition(30, 20);
                     Console.WriteLine("The chest is equiped!");
+                    Console.SetCursorPosition(0, 0);
                     Inventory.Remove(item);
                     this.CheckInv();
                     break;
@@ -238,12 +265,12 @@ namespace Game.Characters
                     }
                     Legs = item;
                     Console.Clear();
+                    Console.SetCursorPosition(30, 20);
                     Console.WriteLine("The leggings are equiped!");
+                    Console.SetCursorPosition(0, 0);
                     Inventory.Remove(item);
                     this.CheckInv();
                     break;
-
-
             }
         }
 
@@ -254,11 +281,27 @@ namespace Game.Characters
         private void SellItem(int i)
         {
             Console.Clear();
+            Console.SetCursorPosition(30, 20);
             Console.WriteLine("Sold {0} for {1} gold\n", Inventory[i].Name, Inventory[i].Price);
+            Console.SetCursorPosition(0, 0);
             Money += Inventory[i].Price;
             Inventory.Remove(Inventory[i]);
             this.CheckInv();
-            //this.Die();
+        }
+        private void SellAll()
+        {
+            Console.Clear();
+            int sum = 0;
+            for (int i = 0; i < Inventory.Count; i++)
+            {
+                sum += Inventory[i].Price;
+            }
+            Inventory = new List<Item>();
+            Console.SetCursorPosition(30, 20);
+            Console.WriteLine("Sold everything for {0} gold\n", sum);
+            Console.SetCursorPosition(0, 0);
+            Money += sum;
+            this.CheckInv();
         }
 
         public virtual void Attack(Enemy target)
@@ -267,26 +310,30 @@ namespace Game.Characters
             int totalItemDefence = LeftHand.ItemDefense + RightHand.ItemDefense + Helm.ItemDefense + Chest.ItemDefense + Legs.ItemDefense;
             if (target.Defence > totalItemPower)
             {
-                target.Health -= rand.Next(5, 15);
+                target.Health -= rand.Next(1, 5);
             }
             else
             {
-                target.Health += (target.Defence - totalItemPower);
+                target.Health += (target.Defence - totalItemPower)/5;
             }
             if (totalItemDefence > target.Attack)
             {
-                this.Health -= rand.Next(5, 15);
+                this.Health -= rand.Next(1, 5);
             }
             else
             {
-                this.Health += (totalItemDefence - target.Attack);
+                this.Health += (totalItemDefence - target.Attack)/5;
             }
         }
 
         public void Die()
         {
             Console.Clear();
-            Console.WriteLine("YOU DIED"); ////TO DO
+            Console.SetCursorPosition(35, 12);
+            Console.WriteLine("YOU DIED");
+            Console.SetCursorPosition(0, 0);
+            Console.ReadLine();
+            Console.Clear();
             MainGameClass.listOfCreatedChars.Remove(this);
             MainGameClass.Start();
         }

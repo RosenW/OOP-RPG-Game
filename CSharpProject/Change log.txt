@@ -1,0 +1,7 @@
+1.renamed legs to leggings.
+2.normalized damage. (everything does 5times less damage than b4)
+3.fixed a bug where equiping/selling
+a non-existing item returns you to the start screen.
+4.equiping/selling message now shows at the bottom
+5.added sell all command (and method)
+6.added change log
