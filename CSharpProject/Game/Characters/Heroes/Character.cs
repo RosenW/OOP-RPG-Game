@@ -113,7 +113,7 @@ namespace Game.Characters
             if (lineArgs[0].ToLower() == "f")
             {
                 Random rand = new Random();
-                Enemy currentEnemy = new Enemy(rand.Next(30, 60), rand.Next(30, 60), Math.Abs(this.Level + rand.Next(-3, 2))+ 1, "a skeleton", rand.Next(50, 150));
+                Enemy currentEnemy = new Enemy(rand.Next(30, 60), rand.Next(30, 60), Math.Abs(this.Level + rand.Next(-3, 2))+ 1, rand.Next(50, 150));
                 Console.WriteLine("you have encountered {0} (level {3}) with {1} attack and {2} defence", currentEnemy.Name, currentEnemy.Attack, currentEnemy.Defence, currentEnemy.Level);
                 Console.WriteLine("fight - F");
                 Console.WriteLine("run - R");

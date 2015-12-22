@@ -57,6 +57,7 @@
     <Compile Include="Items\Legs.cs" />
     <Compile Include="Items\OneHandedWeapon.cs" />
     <Compile Include="MainGameClass.cs" />
+    <Compile Include="Misc\NameLists.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlotID.cs" />
     <Compile Include="XPNeededForEveryLevel.cs" />
