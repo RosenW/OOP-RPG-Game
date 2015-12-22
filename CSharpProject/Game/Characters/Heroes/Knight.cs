@@ -12,6 +12,7 @@ namespace Game.Characters
         public Knight(string name)
             : base(name)
         {
+            this.MaxHealth = 300;
             this.Health = 300;
             this.LeftHand = new OneHandedWeapon("One-Handed Sword", 100, 10,50, 0);
             this.RightHand = new OneHandedWeapon("Wooden Shield", 0, 160, 50, 0);

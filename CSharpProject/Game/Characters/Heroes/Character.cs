@@ -13,6 +13,7 @@ namespace Game.Characters
         public int Level { get; set; }
         public int Money { get; set; }
         public int Experience { get; set; }
+        public int neededXP { get; set; }
         //public bool isAlive { get; set; }
 
         public Item LeftHand { get; set; }
@@ -38,6 +39,7 @@ namespace Game.Characters
             this.Name = name;
             this.Level = 1;
             this.Experience = 0;
+            this.neededXP = 100;
         }
         public void CheckInv()
         {
@@ -93,8 +95,23 @@ namespace Game.Characters
             }
             else
             {
-                MainGameClass.Town(this);
+                MainGameClass.Town(this,"");
             }
+        }
+
+        internal void Heal()
+        {
+            if (this.Money >= 1000)
+            {
+                this.Health = this.MaxHealth;
+                this.Money -= 1000;
+                MainGameClass.Town(this, "Health restored for 1000 gold !");
+            }
+            else
+            {
+                MainGameClass.Town(this, "Not enough gold !");
+            }
+            
         }
 
         internal void GoInADungeon()
@@ -108,7 +125,7 @@ namespace Game.Characters
 
             if (lineArgs[0].ToLower() == "t")
             {
-                MainGameClass.Town(this);
+                MainGameClass.Town(this,"");
             }
             if (lineArgs[0].ToLower() == "f")
             {
@@ -124,7 +141,7 @@ namespace Game.Characters
                 }
                 else
                 {
-                    MainGameClass.Town(this);
+                    MainGameClass.Town(this,"");
                 }
 
             }
@@ -149,7 +166,7 @@ namespace Game.Characters
             string subSubLine = Console.ReadLine();
             if (subSubLine.ToLower() == "f")
             {
-                MainGameClass.Town(this);
+                MainGameClass.Town(this,"");
             }
             else
             {
@@ -180,8 +197,21 @@ namespace Game.Characters
             this.Experience += gainedXP;
             this.Money += goldDrop;
             this.Inventory.Add(dropedItem);
+            string leveledUp = this.chekIfLeveledUp();
             Console.ReadLine();
-            MainGameClass.Town(this);
+            MainGameClass.Town(this,leveledUp);
+        }
+
+        private string chekIfLeveledUp()
+        {
+            if (this.Experience >= this.neededXP)
+            {
+                this.Experience = 0;
+                this.neededXP = (int)(neededXP*2.1);
+                this.Level++;
+                return "You have Leveled up !";
+            }
+            return "";
         }
 
         internal void CheckChar()
@@ -193,13 +223,13 @@ namespace Game.Characters
             Console.WriteLine("Legs: " + Legs);
             Console.WriteLine("Name: " + Name);
             Console.WriteLine("Level: " + Level);
-            Console.WriteLine("Experience: " + Experience);
+            Console.WriteLine("Experience: {0} / {1}",Experience,neededXP);
             Console.WriteLine("\"close\" to close");
 
             string line = Console.ReadLine();
             string[] lineArgs = line.Split(new char[] { ' ' });
 
-            MainGameClass.Town(this);
+            MainGameClass.Town(this,"");
         }
 
         private void Equip(Item item)
@@ -344,9 +374,6 @@ namespace Game.Characters
                 Die();
             }
         }
-        //public void Leveling(Character ch)
-        //{
-            
-        //}
+
     }
 }

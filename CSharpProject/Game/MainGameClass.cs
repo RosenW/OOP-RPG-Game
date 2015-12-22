@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Characters;
 using Game.Items;
+using Game.Characters.Heroes;
 
 namespace Game
 {
@@ -12,16 +13,14 @@ namespace Game
 
         static void Main(string[] args)
         {
-
             Start();
-
         }
 
         public static void Start()
         {
 
             Console.SetCursorPosition(25, 0);
-            Console.WriteLine("Welcome to (insert game name here)\n");
+            Console.WriteLine("Welcome to Console Dungeon\n");
             Console.WriteLine("Choose a character to enter the game or create a new one !\n\n\"C\" - Create\nNumber - enter with selected character\n");
             Console.WriteLine("your characters: ");
 
@@ -36,15 +35,27 @@ namespace Game
             {
                 Console.Write("Choose Name: ");
                 string tempName = Console.ReadLine();
-                Console.WriteLine("Choose class: 1 - Knight, 2 - ???");
-                int tempClass = Int32.Parse(Console.ReadLine());
+                int tempClass = 0;
+                Console.WriteLine("Choose class: 1 - Knight, 2 - Ranger, 3 - Dwarf");
+                try
+                {
+                    tempClass = Int32.Parse(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                }
+
                 if (tempClass == 1)
                 {
                     listOfCreatedChars.Add(new Knight(tempName));
                 }
-                else
+                if (tempClass == 2)
                 {
-                    Console.WriteLine("invalid command...");
+                    listOfCreatedChars.Add(new Ranger(tempName));
+                }
+                if (tempClass == 3)
+                {
+                    listOfCreatedChars.Add(new Dwarf(tempName));
                 }
                 Console.WriteLine();
                 Console.Clear();
@@ -54,7 +65,7 @@ namespace Game
             {
                 try
                 {
-                    Town(listOfCreatedChars[Int32.Parse(line)]);
+                    Town(listOfCreatedChars[Int32.Parse(line)],"");
                 }
                 catch (Exception)
                 {
@@ -65,12 +76,14 @@ namespace Game
                
             }
         }
-        public static void Town(Character ch)
+        public static void Town(Character ch, string message)
         {
             Console.Clear();
+            Console.SetCursorPosition(30, 20);
+            Console.WriteLine(message);
             Console.SetCursorPosition(25, 0);
             Console.WriteLine("Hello "+ch.Name+" You are in town !");
-            Console.WriteLine("You can: \nCheck Inventory - I\nCheck character - C\nFight in a dungeon - D\nSave and exit - S");
+            Console.WriteLine("You can: \nCheck Inventory - I\nCheck character - C\nFight in a dungeon - D\nRestore health - H (1000 gold)");
             line = Console.ReadLine();
             if (line.ToLower() == "i")
             {
@@ -84,9 +97,13 @@ namespace Game
             {
                 ch.GoInADungeon();
             }
+            if (line.ToLower() == "h")
+            {
+                ch.Heal();
+            }
             else
             {
-                Town(ch);
+                Town(ch,"");
             }
         }
     }

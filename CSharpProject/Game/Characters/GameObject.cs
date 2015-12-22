@@ -10,6 +10,7 @@ namespace Game
     abstract class GameObject
     {
         public int Health { get; set; }
+        public int MaxHealth { get; set; }
         protected string name;
     }
 }
