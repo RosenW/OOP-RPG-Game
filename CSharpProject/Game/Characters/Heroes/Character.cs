@@ -241,7 +241,10 @@ namespace Game.Characters
                     int input = Int32.Parse(Console.ReadLine());
                     if (input == 1)
                     {
-                        Inventory.Add(LeftHand);
+                        if (LeftHand.Name != "Nothing")
+                        {
+                            Inventory.Add(LeftHand);
+                        }
                         LeftHand = item;
                         Console.Clear();
                         Console.SetCursorPosition(30, 20);
@@ -252,7 +255,10 @@ namespace Game.Characters
                     }
                     if (input == 2)
                     {
-                        Inventory.Add(RightHand);
+                        if (RightHand.Name != "Nothing")
+                        {
+                            Inventory.Add(RightHand);
+                        }
                         RightHand = item;
                         Console.Clear();
                         Console.SetCursorPosition(30, 20);

@@ -28,3 +28,9 @@ C:\Users\Big\Desktop\Game\CSharpProject\Game\obj\Debug\Game.pdb
 C:\Users\Big\Desktop\Game\CSharpProject\Game\bin\Debug\Game.exe
 C:\Users\Big\Desktop\Game\CSharpProject\Game\bin\Debug\Game.pdb
 C:\Users\Big\Desktop\Game\CSharpProject\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache
+C:\Users\Big\Desktop\clonegame\CSharpProject\Game\bin\Debug\Game.exe.config
+C:\Users\Big\Desktop\clonegame\CSharpProject\Game\obj\Debug\Game.exe
+C:\Users\Big\Desktop\clonegame\CSharpProject\Game\obj\Debug\Game.pdb
+C:\Users\Big\Desktop\clonegame\CSharpProject\Game\bin\Debug\Game.exe
+C:\Users\Big\Desktop\clonegame\CSharpProject\Game\bin\Debug\Game.pdb
+C:\Users\Big\Desktop\clonegame\CSharpProject\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache
